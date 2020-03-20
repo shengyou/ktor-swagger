@@ -1,0 +1,36 @@
+# Todo API
+# Sample Ktor API for Todo
+
+###
+
+# null
+# 
+# Get all tasks
+GET {{host}}/tasks
+
+###
+
+# null
+# 
+# Add a new task
+POST {{host}}/tasks
+Content-Type: application/json
+
+{
+    "title": "title"
+}
+
+###
+
+# null
+# 
+# Complete a task
+POST {{host}}/tasks/{{param_taskId}}/complete
+
+###
+
+# null
+# 
+# Delete a task
+POST {{host}}/tasks/{{param_taskId}}/delete
+

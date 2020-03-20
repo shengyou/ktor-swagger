@@ -1,0 +1,108 @@
+openapi: 3.0.1
+info:
+  title: Todo API
+  description: Sample Ktor API for Todo
+  version: '0.1'
+  contact:
+    email: shengyou.fan@jetbrains.com
+servers:
+  - url: 'http://localhost:8080/api'
+  - url: 'https://ktor-jib-57lqbht3qa-de.a.run.app/api'
+tags: 
+  - name: "Task"
+    description: "CRUD for task"
+paths:
+  /tasks:
+    get:
+      description: Get all tasks
+      tags:
+        - "Task"
+      responses:
+        '200':
+          description: A list of tasks
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      description: Add a new task
+      tags:
+        - "Task"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '200':
+          description: Successful operation
+        '405':
+          description: Method not allow
+        '415':
+          description: Unsupported media type
+        '500':
+          description: Internal server error
+  /tasks/{taskId}/complete:
+    post:
+      description: Complete a task
+      tags:
+        - "Task"
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the task to complete
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Task not found
+        '405':
+          description: Method not allow
+  /tasks/{taskId}/delete:
+    post:
+      description: Delete a task
+      tags:
+        - "Task"
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the task to delete
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Task not found
+        '405':
+          description: Method not allow
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        completed:
+          type: boolean
+          default: false
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    TaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
